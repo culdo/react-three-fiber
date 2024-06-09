@@ -354,7 +354,7 @@ function createRenderer<TCanvas>(_roots: Map<TCanvas, Root>, _getEventPriority?:
 
       insertBefore(scene, child, beforeChild)
     },
-    getRootHostContext: () => null,
+    getRootHostContext: () => {},
     getChildHostContext: (parentHostContext) => parentHostContext,
     finalizeInitialChildren(instance) {
       const localState = instance?.__r3f ?? {}
@@ -426,7 +426,6 @@ function createRenderer<TCanvas>(_roots: Map<TCanvas, Root>, _getEventPriority?:
     hideTextInstance: handleTextInstance,
     unhideTextInstance: handleTextInstance,
     // https://github.com/pmndrs/react-three-fiber/pull/2360#discussion_r916356874
-    // @ts-expect-error
     getCurrentEventPriority: () => (_getEventPriority ? _getEventPriority() : DefaultEventPriority),
     beforeActiveInstanceBlur: () => {},
     afterActiveInstanceBlur: () => {},
@@ -437,6 +436,9 @@ function createRenderer<TCanvas>(_roots: Map<TCanvas, Root>, _getEventPriority?:
         : is.fun(Date.now)
         ? Date.now
         : () => 0,
+    maySuspendCommit: () => false,
+    startSuspendingCommit: () => {},
+    waitForCommitToBeReady: () => null,
     // https://github.com/pmndrs/react-three-fiber/pull/2360#discussion_r920883503
     scheduleTimeout: (is.fun(setTimeout) ? setTimeout : undefined) as any,
     cancelTimeout: (is.fun(clearTimeout) ? clearTimeout : undefined) as any,

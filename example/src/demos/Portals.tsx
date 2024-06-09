@@ -1,6 +1,5 @@
 import * as THREE from 'three'
-import * as React from 'react'
-import { useCallback, useLayoutEffect, useRef, useState } from 'react'
+import { useCallback, useLayoutEffect, useRef, useState, use } from 'react'
 import { Canvas, useFrame, useThree, createPortal } from '@react-three/fiber'
 import { useGLTF, OrbitControls, useFBO, Environment } from '@react-three/drei'
 
@@ -45,6 +44,12 @@ function useHover() {
 
 function Portal({ children, scale = [1, 1, 1], clearColor = 'white', ...props }: any) {
   const ref = useRef<THREE.Mesh>(null!)
+
+  const ayncTimout = new Promise((res) => {
+    setTimeout(() => res('pppp'), 1000)
+  })
+  const foo = use(ayncTimout)
+  console.log(`foo: ${foo}`)
   const fbo = useFBO()
   const { events } = useThree()
   // The portal will render into this scene
